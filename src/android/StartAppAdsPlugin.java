@@ -114,7 +114,10 @@ public class StartAppAdsPlugin extends CordovaPlugin {
   }
 
   public void showBanner(CallbackContext callbackContext) {
-     	startAppBanner = new Banner(cordova.getActivity());
+	if (startAppBanner == null) {  
+     		startAppBanner = new Banner(cordova.getActivity());
+	}
+	  
 	startAppBanner.setBannerListener(new BannerListener() {
 		@Override
 		public void onReceiveAd(View view) {
@@ -139,8 +142,8 @@ public class StartAppAdsPlugin extends CordovaPlugin {
 			Log.d(TAG, "Banner clicked!");
 			cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.clicked');");
 		}
-  });
-    
+  	});
+
 
     View view = cWebView.getView();
     ViewGroup wvParentView = (ViewGroup) view.getParent();
