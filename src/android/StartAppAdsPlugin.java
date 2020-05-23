@@ -35,7 +35,7 @@ public class StartAppAdsPlugin extends CordovaPlugin {
   private StartAppAd startAppAd;
   private CordovaWebView cWebView;
   private ViewGroup parentView;
-  private Banner startAppBanner;
+  private Banner startAppBanner = null;
   private StartAppAd rewardedVideo = null;
 		
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -115,57 +115,56 @@ public class StartAppAdsPlugin extends CordovaPlugin {
 
   public void showBanner(CallbackContext callbackContext) {
 	if (startAppBanner == null) {  
-     		startAppBanner = new Banner(cordova.getActivity());
+		startAppBanner = new Banner(cordova.getActivity());
+		startAppBanner.setBannerListener(new BannerListener() {
+			@Override
+			public void onReceiveAd(View view) {
+				Log.d(TAG, "Banner has been loaded!");
+				cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.load');");
+			}
+
+			@Override
+			public void onFailedToReceiveAd(View view) {
+				Log.d(TAG, "Banner load failed!");
+				cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.load_fail');");
+			}
+
+			@Override
+			public void onImpression(View view) {
+				Log.d(TAG, "Banner Impression!");
+				cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.impression');");
+			}
+
+			@Override
+			public void onClick(View view) {
+				Log.d(TAG, "Banner clicked!");
+				cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.clicked');");
+			}
+		});
+
+
+		View view = cWebView.getView();
+		ViewGroup wvParentView = (ViewGroup) view.getParent();
+
+		if (parentView == null) {
+			parentView = new LinearLayout(cWebView.getContext());
+		}
+
+		if (wvParentView != null && wvParentView != parentView) {
+			wvParentView.removeView(view);
+			LinearLayout content = (LinearLayout) parentView;
+			content.setOrientation(LinearLayout.VERTICAL);
+			parentView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
+			view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0F));
+			parentView.addView(view);
+			wvParentView.addView(parentView);
+			parentView.addView(startAppBanner);
+		}
+
+		parentView.bringToFront();
+		parentView.requestLayout();
+		parentView.requestFocus();
 	}
-	  
-	startAppBanner.setBannerListener(new BannerListener() {
-		@Override
-		public void onReceiveAd(View view) {
-			Log.d(TAG, "Banner has been loaded!");
-			cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.load');");
-		}
-
-		@Override
-		public void onFailedToReceiveAd(View view) {
-			Log.d(TAG, "Banner load failed!");
-			cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.load_fail');");
-		}
-
-		@Override
-		public void onImpression(View view) {
-			Log.d(TAG, "Banner Impression!");
-			cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.impression');");
-		}
-
-		@Override
-		public void onClick(View view) {
-			Log.d(TAG, "Banner clicked!");
-			cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.clicked');");
-		}
-  	});
-
-
-    View view = cWebView.getView();
-    ViewGroup wvParentView = (ViewGroup) view.getParent();
-
-    if (parentView == null) {
-        parentView = new LinearLayout(cWebView.getContext());
-    }
-
-    if (wvParentView != null && wvParentView != parentView) {
-        wvParentView.removeView(view);
-        LinearLayout content = (LinearLayout) parentView;
-        content.setOrientation(LinearLayout.VERTICAL);
-        parentView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
-        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0F));
-        parentView.addView(view);
-        wvParentView.addView(parentView);
-        parentView.addView(startAppBanner);
-    }
-
-    parentView.bringToFront();
-    parentView.requestLayout();
-    parentView.requestFocus();
   }
 
   public void hideBanner(CallbackContext callbackContext) {
@@ -173,6 +172,7 @@ public class StartAppAdsPlugin extends CordovaPlugin {
         startAppBanner.hideBanner();
         startAppBanner.setVisibility(View.GONE);
         parentView = null;
+	startAppBanner = null
         cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.hide');");
     }
   }
