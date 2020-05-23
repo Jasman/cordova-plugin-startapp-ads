@@ -167,15 +167,15 @@ public class StartAppAdsPlugin extends CordovaPlugin {
 	}
   }
 
-  public void hideBanner(CallbackContext callbackContext) {
-    if (startAppBanner != null) {
-        startAppBanner.hideBanner();
-        startAppBanner.setVisibility(View.GONE);
-        parentView = null;
-	startAppBanner = null
-        cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.hide');");
-    }
-  }
+	public void hideBanner(CallbackContext callbackContext) {
+		if (startAppBanner != null) {
+			startAppBanner.hideBanner();
+			startAppBanner.setVisibility(View.GONE);
+			parentView = null;
+			startAppBanner = null;
+			cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.hide');");
+		}
+	}
 
   public void showInterstitial(CallbackContext callbackContext) {
    startAppAd.loadAd(new AdEventListener() {
