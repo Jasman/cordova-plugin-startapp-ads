@@ -124,7 +124,7 @@ public class StartAppAdsPlugin extends CordovaPlugin {
 		startAppBanner = new Banner(cordova.getActivity());
 		startAppBanner.setBannerListener(new BannerListener() {
 			@Override
-			public void onReceiveAd(View view) {
+			public void onReceiveAd(View _view) {
 				Log.d(TAG, "Banner has been loaded!");
 				cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.load');");
 				
@@ -153,19 +153,19 @@ public class StartAppAdsPlugin extends CordovaPlugin {
 			}
 
 			@Override
-			public void onFailedToReceiveAd(View view) {
+			public void onFailedToReceiveAd(View _view) {
 				Log.d(TAG, "Banner load failed!");
 				cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.load_fail');");
 			}
 
 			@Override
-			public void onImpression(View view) {
+			public void onImpression(View _view) {
 				Log.d(TAG, "Banner Impression!");
 				cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.impression');");
 			}
 
 			@Override
-			public void onClick(View view) {
+			public void onClick(View _view) {
 				Log.d(TAG, "Banner clicked!");
 				cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.clicked');");
 			}
