@@ -114,7 +114,7 @@ public class StartAppAdsPlugin extends CordovaPlugin {
   }
 
   public void showBanner(CallbackContext callbackContext) {
-     	Banner startAppBanner = new Banner();
+     	Banner startAppBanner = new Banner(cordova.getActivity());
 	startAppBanner.setBannerListener(new BannerListener() {
 		@Override
 		public void onReceiveAd(View view) {
