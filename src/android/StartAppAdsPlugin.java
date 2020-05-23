@@ -114,7 +114,7 @@ public class StartAppAdsPlugin extends CordovaPlugin {
   }
 
   public void showBanner(CallbackContext callbackContext) {
-     	Banner startAppBanner = new Banner(cordova.getActivity());
+     	startAppBanner = new Banner(cordova.getActivity());
 	startAppBanner.setBannerListener(new BannerListener() {
 		@Override
 		public void onReceiveAd(View view) {
@@ -183,6 +183,16 @@ public class StartAppAdsPlugin extends CordovaPlugin {
   }
 
   public void showRewardVideo(CallbackContext callbackContext) {
-    
+	  
+    	rewardedVideo = new StartAppAd(cordova.getActivity());
+	rewardedVideo.setVideoListener(new VideoListener() {
+            @Override
+            public void onVideoCompleted() {
+                Log.d(TAG, "Video Reward can be given now!");
+        	cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.reward_video.reward');");
+            }
+        });
+		
+	
   }
 }
