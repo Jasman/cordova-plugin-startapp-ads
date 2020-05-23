@@ -1,5 +1,6 @@
 package com.startapp.cordova.ad;
 
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.content.Context;
 
 //import com.startapp.android.publish.ads.nativead.NativeAdDetails;
 //import com.startapp.android.publish.ads.nativead.NativeAdPreferences;
