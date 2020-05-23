@@ -52,8 +52,9 @@ public class StartAppAdsPlugin extends CordovaPlugin {
           String appId = args.optString(0);
           boolean disableReturnAd = args.optBoolean(1);
           boolean disableSplashAd = args.optBoolean(2);
-
-          initStartApp(appId, disableReturnAd, disableSplashAd, PUBLIC_CALLBACKS);
+	  boolean testAds = args.optBoolean(3);
+		
+          initStartApp(appId, disableReturnAd, disableSplashAd, testAds, PUBLIC_CALLBACKS);
         }
       });
       return true;
