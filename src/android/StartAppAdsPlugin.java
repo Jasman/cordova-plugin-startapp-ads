@@ -102,16 +102,21 @@ public class StartAppAdsPlugin extends CordovaPlugin {
     return false;
   }
 
-  public void initStartApp(String appID, Boolean disableReturnAd, Boolean disableSplashAd, CallbackContext callbackContext) {
-    Log.d(TAG, "Initializing StartApp SDK with ID: " +  appID + " ReturnAd: " + disableReturnAd + " SplashAd: " + disableSplashAd);
-    startAppAd = new StartAppAd(cordova.getActivity());
-    StartAppSDK.init(cordova.getActivity(), appID, disableReturnAd);
-    StartAppSDK.setUserConsent(cordova.getActivity(), "pas", System.currentTimeMillis(), false);
+	public void initStartApp(String appID, Boolean disableReturnAd, Boolean disableSplashAd,  Boolean testAds, CallbackContext callbackContext) {
+		Log.d(TAG, "Initializing StartApp SDK with ID: " +  appID + " ReturnAd: " + disableReturnAd + " SplashAd: " + disableSplashAd);
+		startAppAd = new StartAppAd(cordova.getActivity());
+		StartAppSDK.init(cordova.getActivity(), appID, disableReturnAd);
+		StartAppSDK.setUserConsent(cordova.getActivity(), "pas", System.currentTimeMillis(), false);
 
-    if (disableSplashAd) {
-      StartAppAd.disableSplash();
-    }
-  }
+		if (disableSplashAd) {
+			StartAppAd.disableSplash();
+		}
+
+		if (testAds) {
+			StartAppSDK.setTestAdsEnabled(true);
+		}	   
+
+	}
 
   public void showBanner(CallbackContext callbackContext) {
 	if (startAppBanner == null) {  
