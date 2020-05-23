@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.content.Context;
+
  
 import com.startapp.sdk.adsbase.Ad;
 import com.startapp.sdk.adsbase.StartAppAd;
@@ -37,9 +37,7 @@ public class StartAppAdsPlugin extends CordovaPlugin {
   private ViewGroup parentView;
   private Banner startAppBanner;
   private StartAppAd rewardedVideo = null;
-	
-  private final Context context;
-	
+		
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
     cWebView = webView;
@@ -116,7 +114,7 @@ public class StartAppAdsPlugin extends CordovaPlugin {
   }
 
   public void showBanner(CallbackContext callbackContext) {
-     	Banner startAppBanner = new Banner(context);
+     	Banner startAppBanner = new Banner();
 	startAppBanner.setBannerListener(new BannerListener() {
 		@Override
 		public void onReceiveAd(View view) {
