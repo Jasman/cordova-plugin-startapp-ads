@@ -17,20 +17,7 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.content.Context;
-
-//import com.startapp.android.publish.ads.nativead.NativeAdDetails;
-//import com.startapp.android.publish.ads.nativead.NativeAdPreferences;
-//import com.startapp.android.publish.ads.nativead.StartAppNativeAd;
-//import com.startapp.android.publish.adsCommon.Ad;
-//import com.startapp.android.publish.ads.banner.Banner;
-//import com.startapp.android.publish.ads.banner.BannerListener;
-//import com.startapp.android.publish.adsCommon.StartAppAd;
-//import com.startapp.android.publish.adsCommon.StartAppAd.AdMode;
-//import com.startapp.android.publish.adsCommon.StartAppSDK;
-//import com.startapp.android.publish.adsCommon.VideoListener;
-//import com.startapp.android.publish.adsCommon.adListeners.AdDisplayListener;
-//import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
-
+ 
 import com.startapp.sdk.adsbase.Ad;
 import com.startapp.sdk.adsbase.StartAppAd;
 import com.startapp.sdk.adsbase.StartAppSDK;
@@ -190,98 +177,14 @@ public class StartAppAdsPlugin extends CordovaPlugin {
   }
 
   public void showInterstitial(CallbackContext callbackContext) {
-    startAppAd.loadAd(new AdEventListener() {
-        @Override
-        public void onReceiveAd(Ad ad) {
-            startAppAd.showAd(new AdDisplayListener() {
-                @Override
-                public void adHidden(Ad ad) {
-                  Log.d(TAG, "Interstitial has been closed!");
-                  cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.interstitial.closed');");
-                }
-
-                @Override
-                public void adDisplayed(Ad ad) {
-                  Log.d(TAG, "Interstitial displayed!");
-                  cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.interstitial.displayed');");
-                }
-
-                @Override
-                public void adClicked(Ad ad) {
-                  Log.d(TAG, "Interstitial Ad clicked!");
-                  cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.interstitial.clicked');");
-                }
-
-                @Override
-                public void adNotDisplayed(Ad ad) {
-                  Log.d(TAG, "Interstitial Ad not displayed!");
-                  cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.interstitial.not_displayed');");
-                }
-            });
-        }
-
-        @Override
-        public void onFailedToReceiveAd(Ad ad) {
-          Log.d(TAG, "Failed to Receive Interstitial!");
-          cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.interstitial.load_fail');");
-        }
-    });
+    
   }
 
   public void loadRewardVideo(Boolean autoShow, CallbackContext callbackContext) {
-    rewardedVideo = new StartAppAd(cordova.getActivity());
-
-    rewardedVideo.setVideoListener(new VideoListener() {
-      @Override
-      public void onVideoCompleted() {
-        Log.d(TAG, "Video Reward can be given now!");
-        cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.reward_video.reward');");
-      }
-    });
-
-    rewardedVideo.loadAd(AdMode.REWARDED_VIDEO, new AdEventListener() {
-      @Override
-      public void onReceiveAd(Ad arg0) {
-          Log.d(TAG, "Reward Video loaded!");
-          cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.reward_video.load');");
-
-          if (autoShow) {
-            Log.d(TAG, "Video Reward auto show!");
-            rewardedVideo.showAd();
-          }
-      }
-
-      @Override
-      public void onFailedToReceiveAd(Ad arg0) {
-        Log.d(TAG, "Failed to load Rewarded Video Ad!");
-        cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.reward_video.load_fail');");
-      }
-    });
+    
   }
 
   public void showRewardVideo(CallbackContext callbackContext) {
-    if (rewardedVideo != null) {
-      Log.d(TAG, "Reward Video show now!");
-      rewardedVideo.showAd(new AdDisplayListener() {
-        @Override
-        public void adHidden(Ad ad) {
-          Log.d(TAG, "Rewarded Video closed!");
-          cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.reward_video.closed');");
-        }
-        @Override
-        public void adClicked(Ad ad) {
-          Log.d(TAG, "Rewarded Video clicked!");
-          cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.reward_video.clicked');");
-        }
-        @Override
-        public void adDisplayed(Ad ad) {
-        }
-        @Override
-        public void adNotDisplayed(Ad ad) {
-        }
-      });
-    } else {
-      Log.d(TAG, "Video Reward need to load before call it!");
-    }
+    
   }
 }
