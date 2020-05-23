@@ -50,7 +50,9 @@ public class StartAppAdsPlugin extends CordovaPlugin {
   private ViewGroup parentView;
   private Banner startAppBanner;
   private StartAppAd rewardedVideo = null;
-
+	
+  private final Context context;
+	
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
     cWebView = webView;
