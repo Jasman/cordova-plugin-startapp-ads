@@ -121,6 +121,29 @@ public class StartAppAdsPlugin extends CordovaPlugin {
 			public void onReceiveAd(View view) {
 				Log.d(TAG, "Banner has been loaded!");
 				cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.load');");
+				
+				View view = cWebView.getView();
+				ViewGroup wvParentView = (ViewGroup) view.getParent();
+
+				if (parentView == null) {
+					parentView = new LinearLayout(cWebView.getContext());
+				}
+
+				if (wvParentView != null && wvParentView != parentView) {
+					wvParentView.removeView(view);
+					LinearLayout content = (LinearLayout) parentView;
+					content.setOrientation(LinearLayout.VERTICAL);
+					parentView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
+					view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0F));
+					parentView.addView(view);
+					wvParentView.addView(parentView);
+					parentView.addView(startAppBanner);
+				}
+
+				parentView.bringToFront();
+				parentView.requestLayout();
+				parentView.requestFocus();
+								
 			}
 
 			@Override
@@ -142,28 +165,6 @@ public class StartAppAdsPlugin extends CordovaPlugin {
 			}
 		});
 
-
-		View view = cWebView.getView();
-		ViewGroup wvParentView = (ViewGroup) view.getParent();
-
-		if (parentView == null) {
-			parentView = new LinearLayout(cWebView.getContext());
-		}
-
-		if (wvParentView != null && wvParentView != parentView) {
-			wvParentView.removeView(view);
-			LinearLayout content = (LinearLayout) parentView;
-			content.setOrientation(LinearLayout.VERTICAL);
-			parentView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
-			view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0F));
-			parentView.addView(view);
-			wvParentView.addView(parentView);
-			parentView.addView(startAppBanner);
-		}
-
-		parentView.bringToFront();
-		parentView.requestLayout();
-		parentView.requestFocus();
 	}
   }
 
