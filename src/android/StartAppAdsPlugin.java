@@ -29,10 +29,6 @@ import android.widget.LinearLayout;
 //import com.startapp.android.publish.adsCommon.adListeners.AdDisplayListener;
 //import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.startapp.sdk.adsbase.Ad;
 import com.startapp.sdk.adsbase.StartAppAd;
 import com.startapp.sdk.adsbase.StartAppSDK;
@@ -40,7 +36,7 @@ import com.startapp.sdk.adsbase.VideoListener;
 import com.startapp.sdk.adsbase.adlisteners.AdEventListener;
 import com.startapp.sdk.ads.banner.Banner;
 import com.startapp.sdk.ads.banner.BannerListener;
-
+import com.startapp.sdk.ads.nativead.NativeAdDetails;
 
 public class StartAppAdsPlugin extends CordovaPlugin {
 
