@@ -134,6 +134,15 @@ public class StartAppAdsPlugin extends CordovaPlugin {
                 public void onFailedToReceiveAd(View view) {
                     Log.d(TAG, "Banner load failed!");
                     cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.load_fail');");
+                    
+                    if (startAppBanner != null) {
+                        startAppBanner.hideBanner();
+                        startAppBanner.setVisibility(View.GONE);
+                        parentView = null;
+                        startAppBanner = null;
+                        cWebView.loadUrl("javascript:cordova.fireDocumentEvent('startappads.banner.hide');");
+                    }
+                    
                 }
 
                 @Override
